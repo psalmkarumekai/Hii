@@ -1,0 +1,235 @@
+:root {
+    --baby-blue: #b3dbf2;
+    --text-color: #557a95;
+    --white: #ffffff;
+    --soft-pink: #fbc4cb;
+    --light-blue: #e8f4f8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-blue);
+    color: var(--text-color);
+    overflow-x: hidden;
+    text-align: center;
+}
+
+/* Navigation */
+nav {
+    background-color: var(--white);
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: all 0.3s;
+}
+
+nav button.active, nav button:hover {
+    color: #74b9ff;
+    border-bottom: 2px solid var(--baby-blue);
+}
+
+/* Pages Control */
+.page {
+    display: none;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards Layout */
+.card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(179, 219, 242, 0.3);
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #74b9ff;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+h3 {
+    margin-bottom: 15px;
+    color: #557a95;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Quiz Specific Styling */
+#options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+}
+
+.option-btn {
+    background-color: var(--light-blue);
+    color: var(--text-color);
+    border: 2px solid var(--baby-blue);
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+    background-color: var(--baby-blue);
+    color: white;
+}
+
+.feedback {
+    font-weight: bold;
+    min-height: 24px;
+    margin-bottom: 15px;
+}
+
+/* Runaway Section Layout */
+.proposal-container {
+    position: relative;
+    min-height: 300px;
+}
+
+.proposal-btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+    position: relative;
+}
+
+#noBtn {
+    position: absolute;
+    background-color: var(--soft-pink);
+    transition: all 0.1s ease;
+}
+
+/* Secret Message Box */
+.secret-card {
+    border: 3px dashed var(--baby-blue);
+    background-color: #f7fbfe;
+    margin-top: 30px;
+}
+
+.secret-text {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: #4a7c59;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.refresh-note {
+    font-size: 0.85rem;
+    color: #a0c4df;
+}
+
+/* Buttons styling */
+.btn {
+    background-color: var(--baby-blue);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background-color: #92c5de;
+}
+
+/* Success Celebration Screen Overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(232, 244, 248, 0.95);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.overlay h2 {
+    font-size: 3rem;
+    color: #74b9ff;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+/* Floating Elements Effect */
+.heart {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatUp 3s linear infinite;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* Placeholders for pictures */
+.photo-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #f0f7fa;
+    border: 2px dashed var(--baby-blue);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0;
+    color: #a0c4df;
+    font-style: italic;
+}
