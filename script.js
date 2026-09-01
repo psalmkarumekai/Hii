@@ -1,5 +1,4 @@
 // --- 1. ROTATING SECRET MESSAGES CONFIG ---
-// Every time she refreshes or opens the site, it randomly picks one of these 25 romantic + funny mix!
 const secretMessages = [
     "Secret #1: I love you more than ice cream. And you know how much I love ice cream. But seriously, you're my absolute favorite person in the universe. 🩵",
     "Secret #2: I still look at you when you aren't looking and think 'damn, I really hit the jackpot'. Thanks for being mine. 👀✨",
@@ -25,17 +24,16 @@ const secretMessages = [
     "Secret #22: You're my favorite person to send stupid memes to. Thank you for always matching my frequency. 📱🤪",
     "Secret #23: If being obsessed with you was a full-time job, I'd be a billionaire by now. 💼💰🩵",
     "Secret #24: Thank you for making me laugh until my stomach hurts. You are the absolute joy of my life. ☀️🤍",
-    "Secret #25: No matter what happens in the future, please remember that you have an permanent home right here next to me. I love you to the moon and back. 🌙🩵"
+    "Secret #25: No matter what happens in the future, please remember that you have an permanent home right here next to me. I love you to the moon and back. 🌙🩵",
     "Secret #26: Your story is yours and no body else's, God has it written down and drawn out for you, dont try to change what God has written out just because you want to be better than someone else, never forget that🩵",
     "Secret #27: Your arms will always be my go to through all my emotions🌹😊",
-    "Secret #27: Forever and always, Im never letting go🦄🩵",
-    "Secret #28: I love you more hehe🌹🦄🍩🍨",
-    "Secret #29: I farted👌😁😎 and it smells like candy",
-    "Secret #30: You dont need people's approval to prove that you are great🩵🩵🩵",
-    "Secret #31: Thank you for healing me❤️‍🩹❤️‍🩹",
-    "Secret #32: I'm hungeryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy, I want Ice cream!!!! I want sushi!!!!",
-    "Secret #33: Can I be dirty here?😗😏",
-    
+    "Secret #28: Forever and always, Im never letting go🦄🩵",
+    "Secret #29: I love you more hehe🌹🦄🍩🍨",
+    "Secret #30: I farted👌😁😎 and it smells like candy",
+    "Secret #31: You dont need people's approval to prove that you are great🩵🩵🩵",
+    "Secret #32: Thank you for healing me❤️‍🩹❤️‍🩹",
+    "Secret #33: I'm hungeryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy, I want Ice cream!!!! I want sushi!!!!",
+    "Secret #34: Can I be dirty here?😗😏"
 ];
 
 // --- 2. PERSONALIZED RELATIONSHIP QUIZ DATA ---
@@ -87,7 +85,9 @@ const quizQuestions = [
     }
 ];
 
+// --- STATE MANAGEMENT ---
 let currentQuestionIndex = 0;
+let hasPassedQuiz = false; // Security gate variable
 
 // Initialize features on load
 window.onload = function() {
@@ -95,8 +95,22 @@ window.onload = function() {
     setRandomSecretMessage();
 };
 
-// Page Switcher Navigation
+// Page Switcher Navigation with Gatekeeping
 function showPage(pageId) {
+    // If she tries to go to the proposal page but hasn't won the quiz yet, block her!
+    if (pageId === 'proposal' && !hasPassedQuiz) {
+        const feedbackEl = document.getElementById('quiz-feedback');
+        feedbackEl.style.color = "#f99fb0";
+        feedbackEl.innerText = "🔒 Access Denied! You must get 100% on the quiz first before unlocking this tab.";
+        
+        // Force back to quiz page visually
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('quiz').classList.add('active');
+        document.getElementById('nav-quiz').classList.add('active');
+        return;
+    }
+
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
 
@@ -115,6 +129,8 @@ function loadQuizQuestion() {
 
     if (currentQuestionIndex >= quizQuestions.length) {
         // Quiz completed successfully
+        hasPassedQuiz = true; // Flips the security gate to true!
+        
         document.getElementById('quiz-container').style.display = 'none';
         document.getElementById('quiz-intro').style.display = 'none';
         document.getElementById('quiz-success').style.display = 'block';
@@ -162,52 +178,5 @@ function moveNoButton() {
     const maxX = containerRect.width - btnRect.width - 20;
     const maxY = containerRect.height - btnRect.height - 20;
 
-    const randomX = Math.floor(Math.random() * Math.max(maxX, 1));
-    const randomY = Math.floor(Math.random() * Math.max(maxY, 1));
+const randomX = Math.floor(Math.random() * Math.max(maxX, 1));const randomY = Math.floor(Math.random() * Math.max(maxY, 1));noBtn.style.left = randomX + 'px';noBtn.style.top = randomY + 'px';}if (noBtn) {noBtn.addEventListener('mouseenter', moveNoButton);noBtn.addEventListener('click', moveNoButton);}function resetNoButton() {if (!noBtn) return;noBtn.style.position = 'static';setTimeout(() => {noBtn.style.position = 'absolute';noBtn.style.right = '20%';noBtn.style.top = '65%';}, 10);}// --- 5. SECRET MESSAGES LOGIC ---function setRandomSecretMessage() {const messageEl = document.getElementById('secretMessage');if (messageEl) {const randomIndex = Math.floor(Math.random() * secretMessages.length);messageEl.innerText = secretMessages[randomIndex];}}// --- 6. CELEBRATION OVERLAY ---function celebrate() {document.getElementById('successOverlay').style.display = 'flex';startHearts();}function closeOverlay() {document.getElementById('successOverlay').style.display = 'none';}function startHearts() {const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];setInterval(() => {const heart = document.createElement('div');heart.classList.add('heart');heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];heart.style.left = Math.random() * 100 + 'vw';heart.style.animationDuration = (Math.random() * 2 + 2) + 's';document.body.appendChild(heart);setTimeout(() => heart.remove(), 4000);}, 300);}
 
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
-}
-
-noBtn.addEventListener('mouseenter', moveNoButton);
-noBtn.addEventListener('click', moveNoButton);
-
-function resetNoButton() {
-    noBtn.style.position = 'static';
-    setTimeout(() => {
-        noBtn.style.position = 'absolute';
-        noBtn.style.right = '20%';
-        noBtn.style.top = '65%';
-    }, 10);
-}
-
-// --- 5. SECRET MESSAGES LOGIC ---
-function setRandomSecretMessage() {
-    const messageEl = document.getElementById('secretMessage');
-    const randomIndex = Math.floor(Math.random() * secretMessages.length);
-    messageEl.innerText = secretMessages[randomIndex];
-}
-
-// --- 6. CELEBRATION OVERLAY ---
-function celebrate() {
-    document.getElementById('successOverlay').style.display = 'flex';
-    startHearts();
-}
-
-function closeOverlay() {
-    document.getElementById('successOverlay').style.display = 'none';
-}
-
-function startHearts() {
-    const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];
-    setInterval(() => {
-        const heart = document.createElement('div');
-        heart.classList.add('heart');
-        heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = (Math.random() * 2 + 2) + 's'; 
-        document.body.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 4000);
-    }, 300);
-}
