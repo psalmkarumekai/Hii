@@ -87,40 +87,49 @@ const quizQuestions = [
 
 // --- STATE MANAGEMENT ---
 let currentQuestionIndex = 0;
-let hasPassedQuiz = false; // Security gate variable
+let hasPassedQuiz = false; 
 
-// Initialize features on load
+// Run initial configurations safely when browser window finishes loading everything
 window.onload = function() {
     loadQuizQuestion();
     setRandomSecretMessage();
 };
 
-// Page Switcher Navigation
+// Page Switcher Navigation Tracker
 function showPage(pageId) {
-    // SECURITY BLOCKER: If she tries to skip to the proposal before passing the quiz, block her
+    // SECURITY BLOCKER: Restrict if trying to sneak to proposal without passing quiz
     if (pageId === 'proposal' && !hasPassedQuiz) {
         const feedbackEl = document.getElementById('quiz-feedback');
         if (feedbackEl) {
             feedbackEl.style.color = "#f99fb0";
-            feedbackEl.innerText = "🔒 Access Denied! You must get 100% on the quiz first.";
+            feedbackEl.innerText = "🔒 Access Denied! You must clear the relationship quiz first.";
         }
-        
-        // Force the active states back to the quiz tab
-        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('quiz').classList.add('active');
-        document.getElementById('nav-quiz').classList.add('active');
+        showPage('quiz');
         return;
     }
 
-    // Normal navigation execution
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+    // Hide all pages manually using standard style overrides
+    document.querySelectorAll('.page').forEach(page => {
+        page.style.display = 'none';
+        page.classList.remove('active');
+    });
+    document.querySelectorAll('nav button').forEach(btn => {
+        btn.classList.remove('active');
+    });
 
-    document.getElementById(pageId).classList.add('active');
-    document.getElementById('nav-' + pageId).classList.add('active');
+    // Make the targets visible directly
+    const targetPage = document.getElementById(pageId);
+    const targetNav = document.getElementById('nav-' + pageId);
     
-    if(pageId === 'proposal') {
+    if (targetPage) {
+        targetPage.style.display = 'block';
+        targetPage.classList.add('active');
+    }
+    if (targetNav) {
+        targetNav.classList.add('active');
+    }
+    
+    if (pageId === 'proposal') {
         resetNoButton();
     }
 }
@@ -131,9 +140,7 @@ function loadQuizQuestion() {
     if (feedbackEl) feedbackEl.innerText = ""; 
 
     if (currentQuestionIndex >= quizQuestions.length) {
-        // Quiz completed successfully
         hasPassedQuiz = true; 
-        
         document.getElementById('quiz-container').style.display = 'none';
         document.getElementById('quiz-intro').style.display = 'none';
         document.getElementById('quiz-success').style.display = 'block';
@@ -141,9 +148,11 @@ function loadQuizQuestion() {
     }
 
     const currentQuiz = quizQuestions[currentQuestionIndex];
-    document.getElementById('question-text').innerText = currentQuiz.question;
+    const questionTextEl = document.getElementById('question-text');
+    if (questionTextEl) questionTextEl.innerText = currentQuiz.question;
     
     const optionsContainer = document.getElementById('options-container');
+    if (!optionsContainer) return;
     optionsContainer.innerHTML = ""; 
 
     currentQuiz.options.forEach((option, index) => {
@@ -158,6 +167,7 @@ function loadQuizQuestion() {
 function checkAnswer(selectedIndex) {
     const feedbackEl = document.getElementById('quiz-feedback');
     const currentQuiz = quizQuestions[currentQuestionIndex];
+    if (!feedbackEl) return;
 
     if (selectedIndex === currentQuiz.correctAnswer) { 
         feedbackEl.style.color = "#4a7c59";
@@ -175,10 +185,10 @@ const noBtn = document.getElementById('noBtn');
 const container = document.querySelector('.proposal-container');
 
 function moveNoButton() {
+    if (!noBtn || !container) return;
+
     const containerRect = container.getBoundingClientRect();
     const btnRect = noBtn.getBoundingClientRect();
 
     const maxX = containerRect.width - btnRect.width - 20;
-    const maxY = containerRect.height - btnRect.height - 20;
-
-const randomX = Math.floor(Math.random() * Math.max(maxX, 1));const randomY = Math.floor(Math.random() * Math.max(maxY, 1));noBtn.style.left = randomX + 'px';noBtn.style.top = randomY + 'px';}if (noBtn) {noBtn.addEventListener('mouseenter', moveNoButton);noBtn.addEventListener('click', moveNoButton);}function resetNoButton() {if (!noBtn) return;noBtn.style.position = 'static';setTimeout(() => {noBtn.style.position = 'absolute';noBtn.style.right = '20%';noBtn.style.top = '65%';}, 10);}// --- 5. SECRET MESSAGES LOGIC ---function setRandomSecretMessage() {const messageEl = document.getElementById('secretMessage');if (messageEl) {const randomIndex = Math.floor(Math.random() * secretMessages.length);messageEl.innerText = secretMessages[randomIndex];}}// --- 6. CELEBRATION OVERLAY ---function celebrate() {document.getElementById('successOverlay').style.display = 'flex';startHearts();}function closeOverlay() {document.getElementById('successOverlay').style.display = 'none';}function startHearts() {const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];setInterval(() => {const heart = document.createElement('div');heart.classList.add('heart');heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];heart.style.left = Math.random() * 100 + 'vw';heart.style.animationDuration = (Math.random() * 2 + 2) + 's';document.body.appendChild(heart);setTimeout(() => heart.remove(), 4000);}, 300);}
+const maxY = containerRect.height - btnRect.height - 20;const randomX = Math.floor(Math.random() * Math.max(maxX, 1));const randomY = Math.floor(Math.random() * Math.max(maxY, 1));noBtn.style.position = 'absolute';noBtn.style.left = randomX + 'px';noBtn.style.top = randomY + 'px';}if (noBtn) {noBtn.addEventListener('mouseenter', moveNoButton);noBtn.addEventListener('click', moveNoButton);}function resetNoButton() {if (!noBtn) return;noBtn.style.position = 'static';setTimeout(() => {noBtn.style.position = 'absolute';noBtn.style.right = '20%';noBtn.style.top = '65%';}, 10);}// --- 5. SECRET MESSAGES LOGIC ---function setRandomSecretMessage() {const messageEl = document.getElementById('secretMessage');if (messageEl) {const randomIndex = Math.floor(Math.random() * secretMessages.length);messageEl.innerText = secretMessages[randomIndex];}}// --- 6. CELEBRATION OVERLAY ---function celebrate() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'flex';startHearts();}function closeOverlay() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'none';}function startHearts() {const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];setInterval(() => {const heart = document.createElement('div');heart.style.position = 'fixed';heart.style.bottom = '-50px';heart.style.fontSize = '24px';heart.style.zIndex = '99999';heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];heart.style.left = Math.random() * 100 + 'vw';let currentBottom = -50;const speed = Math.random() * 3 + 2;const slideInterval = setInterval(() => {currentBottom += speed;heart.style.bottom = currentBottom + 'px';if (currentBottom > window.innerHeight) {clearInterval(slideInterval);heart.remove();}}, 20);document.body.appendChild(heart);}, 400);}
