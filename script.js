@@ -89,11 +89,21 @@ const quizQuestions = [
 let currentQuestionIndex = 0;
 let hasPassedQuiz = false; // Security gate variable
 
-// Initialize features on load
+// Initialize features immediately on script load
+loadQuizQuestion();
+setRandomSecretMessage();
+
+// Also back them up on window load to handle slower connections
 window.onload = function() {
     loadQuizQuestion();
     setRandomSecretMessage();
 };
+
+// Page Switcher Navigation with Gatekeeping
+function showPage(pageId) {
+...
+
+
 
 // Page Switcher Navigation with Gatekeeping
 function showPage(pageId) {
