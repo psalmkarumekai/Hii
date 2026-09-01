@@ -89,31 +89,23 @@ const quizQuestions = [
 let currentQuestionIndex = 0;
 let hasPassedQuiz = false; // Security gate variable
 
-// Initialize features immediately on script load
-loadQuizQuestion();
-setRandomSecretMessage();
-
-// Also back them up on window load to handle slower connections
+// Initialize features on load
 window.onload = function() {
     loadQuizQuestion();
     setRandomSecretMessage();
 };
 
-// Page Switcher Navigation with Gatekeeping
+// Page Switcher Navigation
 function showPage(pageId) {
-...
-
-
-
-// Page Switcher Navigation with Gatekeeping
-function showPage(pageId) {
-    // If she tries to go to the proposal page but hasn't won the quiz yet, block her!
+    // SECURITY BLOCKER: If she tries to skip to the proposal before passing the quiz, block her
     if (pageId === 'proposal' && !hasPassedQuiz) {
         const feedbackEl = document.getElementById('quiz-feedback');
-        feedbackEl.style.color = "#f99fb0";
-        feedbackEl.innerText = "🔒 Access Denied! You must get 100% on the quiz first before unlocking this tab.";
+        if (feedbackEl) {
+            feedbackEl.style.color = "#f99fb0";
+            feedbackEl.innerText = "🔒 Access Denied! You must get 100% on the quiz first.";
+        }
         
-        // Force back to quiz page visually
+        // Force the active states back to the quiz tab
         document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
         document.getElementById('quiz').classList.add('active');
@@ -121,6 +113,7 @@ function showPage(pageId) {
         return;
     }
 
+    // Normal navigation execution
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
 
@@ -135,11 +128,11 @@ function showPage(pageId) {
 // --- 3. QUIZ SYSTEM LOGIC ---
 function loadQuizQuestion() {
     const feedbackEl = document.getElementById('quiz-feedback');
-    feedbackEl.innerText = ""; // Clear old message
+    if (feedbackEl) feedbackEl.innerText = ""; 
 
     if (currentQuestionIndex >= quizQuestions.length) {
         // Quiz completed successfully
-        hasPassedQuiz = true; // Flips the security gate to true!
+        hasPassedQuiz = true; 
         
         document.getElementById('quiz-container').style.display = 'none';
         document.getElementById('quiz-intro').style.display = 'none';
@@ -151,7 +144,7 @@ function loadQuizQuestion() {
     document.getElementById('question-text').innerText = currentQuiz.question;
     
     const optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = ""; // Clear old buttons
+    optionsContainer.innerHTML = ""; 
 
     currentQuiz.options.forEach((option, index) => {
         const button = document.createElement('button');
@@ -189,4 +182,3 @@ function moveNoButton() {
     const maxY = containerRect.height - btnRect.height - 20;
 
 const randomX = Math.floor(Math.random() * Math.max(maxX, 1));const randomY = Math.floor(Math.random() * Math.max(maxY, 1));noBtn.style.left = randomX + 'px';noBtn.style.top = randomY + 'px';}if (noBtn) {noBtn.addEventListener('mouseenter', moveNoButton);noBtn.addEventListener('click', moveNoButton);}function resetNoButton() {if (!noBtn) return;noBtn.style.position = 'static';setTimeout(() => {noBtn.style.position = 'absolute';noBtn.style.right = '20%';noBtn.style.top = '65%';}, 10);}// --- 5. SECRET MESSAGES LOGIC ---function setRandomSecretMessage() {const messageEl = document.getElementById('secretMessage');if (messageEl) {const randomIndex = Math.floor(Math.random() * secretMessages.length);messageEl.innerText = secretMessages[randomIndex];}}// --- 6. CELEBRATION OVERLAY ---function celebrate() {document.getElementById('successOverlay').style.display = 'flex';startHearts();}function closeOverlay() {document.getElementById('successOverlay').style.display = 'none';}function startHearts() {const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];setInterval(() => {const heart = document.createElement('div');heart.classList.add('heart');heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];heart.style.left = Math.random() * 100 + 'vw';heart.style.animationDuration = (Math.random() * 2 + 2) + 's';document.body.appendChild(heart);setTimeout(() => heart.remove(), 4000);}, 300);}
-
