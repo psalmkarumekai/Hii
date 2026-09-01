@@ -1,117 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ultimate Relationship Test 🩵</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Custom styled text element replacing the image box */
-        .names-display {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #74b9ff;
-            margin: 30px 0;
-            padding: 20px;
-            background: #f0f7fa;
-            border-radius: 15px;
-            border: 2px dashed #74b9ff;
-            display: inline-block;
-            width: 100%;
-        }
-        .names-display span {
-            color: #ff7675;
-        }
-        /* Lock styling for disabled buttons */
-        nav button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .feedback {
-            margin-top: 15px;
-            font-weight: bold;
-            min-height: 24px;
-        }
-        .feedback.correct { color: #2ecc71; }
-        .feedback.wrong { color: #e74c3c; }
-    </style>
-</head>
-<body>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>The Ultimate Relationship Test 🩵</title> 
+    <link rel="stylesheet" href="style.css"> 
+    <style> 
+        /* Custom styled text element replacing the image box */ 
+        .names-display { 
+            font-size: 2.2rem; 
+            font-weight: bold; 
+            color: #74b9ff; 
+            margin: 30px 0; 
+            padding: 20px; 
+            background: #f0f7fa; 
+            border-radius: 15px; 
+            border: 2px dashed var(--baby-blue); 
+            display: inline-block; 
+            width: 100%; 
+        } 
+        .names-display span { 
+            color: var(--soft-pink); 
+        } 
+    </style> 
+</head> 
+<body> 
 
-    <!-- Navigation Bar -->
-    <nav id="navBar" style="display: none;"> 
-        <button onclick="navigateToPage('home')" id="nav-home" class="active">Welcome</button>
-        <button onclick="navigateToPage('quiz')" id="nav-quiz">The Quiz</button>
-        <button onclick="navigateToPage('proposal')" id="nav-proposal" disabled>The Question 🔒</button>
-    </nav>
+    <!-- Navigation Bar --> 
+    <nav> 
+        <button onclick="showPage('home')" id="nav-home" class="active">Welcome</button> 
+        <button onclick="showPage('quiz')" id="nav-quiz">The Quiz</button> 
+        <button onclick="showPage('proposal')" id="nav-proposal">The Question</button> 
+    </nav> 
 
-    <!-- PAGE 1: HOME -->
-    <div id="home" class="page active">
-        <div class="card">
-            <h1>Welcome to Our Corner ✨</h1>
-            <p>I built this highly official, incredibly legally binding website just for you. Before you get to the good stuff, you have to prove you're actually a good girlfriend.</p>
+    <!-- PAGE 1: HOME --> 
+    <div id="home" class="page active"> 
+        <div class="card"> 
+            <h1>Welcome to Our Corner ✨</h1> 
+            <p>I built this highly official, incredibly legally binding website just for you. Before you get to the good stuff, you have to prove you're actually a good girlfriend.</p> 
             
-            <div class="names-display"> Psalm <span>🩵</span> Leila </div>
-            <button class="btn" onclick="navigateToPage('quiz')">Start the Quiz! ➔</button>
-        </div>
-    </div>
+            <!-- Beautiful Text Focal Point replacing the image --> 
+            <div class="names-display"> Psalm <span>🩵</span> Leila </div> 
+            <button class="btn" onclick="showPage('quiz')">Start the Quiz! ➔</button> 
+        </div> 
+    </div> 
 
-    <!-- PAGE 2: THE QUIZ -->
-    <div id="quiz" class="page" style="display: none;">
-        <div class="card">
-            <h1>The "Are We Perfect?" Quiz 🧠</h1>
-            <p id="quiz-intro">Answer these correctly, or I'm deleting the site.</p>
+    <!-- PAGE 2: THE QUIZ --> 
+    <div id="quiz" class="page"> 
+        <div class="card"> 
+            <h1>The "Are We Perfect?" Quiz 🧠</h1> 
+            <p id="quiz-intro">Answer these correctly, or I'm deleting the site.</p> 
 
-            <!-- Quiz Container -->
-            <div id="quiz-container">
-                <h3 id="question-text">Question Placeholder</h3>
-                <div id="options-container" class="options-container">
-                    <!-- Buttons will generate here via JS -->
-                </div>
-                <p id="quiz-feedback" class="feedback"></p>
-            </div>
+            <!-- Quiz Container --> 
+            <div id="quiz-container"> 
+                <h3 id="question-text">Question Placeholder</h3> 
+                <div id="options-container"> 
+                    <!-- Buttons will generate here via JS --> 
+                </div> 
+                <p id="quiz-feedback" class="feedback"></p> 
+            </div> 
 
-            <!-- Quiz Success / Unlock State -->
-            <div id="quiz-success" style="display: none;">
-                <h3>🎉 100% Score! (As if there was any doubt)</h3>
-                <p>You successfully passed the test. You may now proceed to the final boss level.</p>
-                <button class="btn" onclick="navigateToPage('proposal')">Go to Final Page ➔</button>
-            </div>
-        </div>
-    </div>
+            <!-- Quiz Success / Unlock State --> 
+            <div id="quiz-success" style="display: none;"> 
+                <h3>🎉 100% Score! (As if there was any doubt)</h3> 
+                <p>You successfully passed the test. You may now proceed to the final boss level.</p> 
+                <button class="btn" onclick="showPage('proposal')">Go to Final Page ➔</button> 
+            </div> 
+        </div> 
+    </div> 
 
-    <!-- PAGE 3: THE JOKE PROPOSAL -->
-    <div id="proposal" class="page" style="display: none;">
-        <div class="card proposal-container">
-            <h1>Marry Me? 💍 (Just Kidding... unless?)</h1>
-            <p>Since you passed the quiz, it's time for the ultimate question. Will you marry me? (Disclaimer: This does not count as a real proposal, please do not call your mom yet).</p>
-            <div class="proposal-btn-container">
-                <button class="btn" id="yesBtn" onclick="celebrate()">YES! 🩵</button>
-                <button class="btn" id="noBtn">No 🙄</button>
-            </div>
-        </div>
+    <!-- PAGE 3: THE JOKE PROPOSAL --> 
+    <div id="proposal" class="page"> 
+        <div class="card proposal-container"> 
+            <h1>Marry Me? 💍 (Just Kidding... unless?)</h1> 
+            <p>Since you passed the quiz, it's time for the ultimate question. Will you marry me? (Disclaimer: This does not count as a real proposal, please do not call your mom yet).</p> 
+            <div class="proposal-btn-container"> 
+                <button class="btn" id="yesBtn" onclick="celebrate()">YES! 🩵</button> 
+                <button class="btn" id="noBtn">No 🙄</button> 
+            </div> 
+        </div> 
 
-        <!-- SECRET MESSAGE BOX -->
-        <div class="card secret-card" id="secretBox">
-            <h2>📬 Today's Secret Message:</h2>
-            <p id="secretMessage" class="secret-text">Loading your secret...</p>
-            <span class="refresh-note">(Psst... refresh the website or visit tomorrow for a completely new message!)</span>
-        </div>
-    </div>
+        <!-- SECRET MESSAGE BOX (Unlocks and changes on every visit) --> 
+        <div class="card secret-card" id="secretBox"> 
+            <h2>📬 Today's Secret Message:</h2> 
+            <p id="secretMessage" class="secret-text">Loading your secret...</p> 
+            <span class="refresh-note">(Psst... refresh the website or visit tomorrow for a completely new message!)</span> 
+        </div> 
+    </div> 
 
-    <!-- JOKE SUCCESS OVERLAY -->
-    <div id="successOverlay" class="overlay" style="display: none;">
-        <h2>CONGRATS, WE ARE ENGAGED! 🥳💍😂</h2>
-        <p>I am legally screenshotting this. You cannot back out now. Best joke ever.</p>
-        <button class="btn" onclick="closeOverlay()">Close</button>
-    </div>
+    <!-- JOKE SUCCESS OVERLAY --> 
+    <div id="successOverlay" class="overlay"> 
+        <h2>CONGRATS, WE ARE ENGAGED! 🥳💍😂</h2> 
+        <p>I am legally screenshotting this. You cannot back out now. Best joke ever.</p> 
+        <button class="btn" onclick="closeOverlay()">Close</button> 
+    </div> 
 
-    <script src="script.js"></script>
-</body>
+    <script src="script.js"></script> 
+</body> 
 </html>
