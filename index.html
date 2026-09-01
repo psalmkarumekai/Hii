@@ -22,6 +22,19 @@
         .names-display span { 
             color: var(--soft-pink); 
         } 
+        /* Safe styles for dynamic options dynamically rendered via JS */
+        .option-btn {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 1px solid #74b9ff;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
     </style> 
 </head> 
 <body> 
@@ -39,14 +52,13 @@
             <h1>Welcome to Our Corner ✨</h1> 
             <p>I built this highly official, incredibly legally binding website just for you. Before you get to the good stuff, you have to prove you're actually a good girlfriend.</p> 
             
-            <!-- Beautiful Text Focal Point replacing the image --> 
             <div class="names-display"> Psalm <span>🩵</span> Leila </div> 
             <button class="btn" onclick="showPage('quiz')">Start the Quiz! ➔</button> 
         </div> 
     </div> 
 
     <!-- PAGE 2: THE QUIZ --> 
-    <div id="quiz" class="page"> 
+    <div id="quiz" class="page" style="display: none;"> 
         <div class="card"> 
             <h1>The "Are We Perfect?" Quiz 🧠</h1> 
             <p id="quiz-intro">Answer these correctly, or I'm deleting the site.</p> 
@@ -70,7 +82,7 @@
     </div> 
 
     <!-- PAGE 3: THE JOKE PROPOSAL --> 
-    <div id="proposal" class="page"> 
+    <div id="proposal" class="page" style="display: none;"> 
         <div class="card proposal-container"> 
             <h1>Marry Me? 💍 (Just Kidding... unless?)</h1> 
             <p>Since you passed the quiz, it's time for the ultimate question. Will you marry me? (Disclaimer: This does not count as a real proposal, please do not call your mom yet).</p> 
@@ -80,7 +92,7 @@
             </div> 
         </div> 
 
-        <!-- SECRET MESSAGE BOX (Unlocks and changes on every visit) --> 
+        <!-- SECRET MESSAGE BOX --> 
         <div class="card secret-card" id="secretBox"> 
             <h2>📬 Today's Secret Message:</h2> 
             <p id="secretMessage" class="secret-text">Loading your secret...</p> 
@@ -89,7 +101,7 @@
     </div> 
 
     <!-- JOKE SUCCESS OVERLAY --> 
-    <div id="successOverlay" class="overlay"> 
+    <div id="successOverlay" class="overlay" style="display: none;"> 
         <h2>CONGRATS, WE ARE ENGAGED! 🥳💍😂</h2> 
         <p>I am legally screenshotting this. You cannot back out now. Best joke ever.</p> 
         <button class="btn" onclick="closeOverlay()">Close</button> 
