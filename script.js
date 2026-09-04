@@ -31,7 +31,7 @@ const secretMessages = [
     `Secret #29: I love you more hehe🌹🦄🍩🍨`,
     `Secret #30: I farted👌😁😎 and it smells like candy`,
     `Secret #31: You dont need people's approval to prove that you are great🩵🩵🩵`,
-    `Secret #32: Thank you for healing me❤️‍¼❤️‍¼`,
+    `Secret #32: Thank you for healing me❤️‍🩹❤️‍🩹`,
     `Secret #33: I'm hungeryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy, I want Ice cream!!!! I want sushi!!!!`,
     `Secret #34: Can I be dirty here?😗😏`
 ];
@@ -94,27 +94,27 @@ const loginQuestions = [
     },
     {
         question: "What is our official anniversary date?",
-        options: ["24 November 2026", "02 November 2025", "24 November 2025"],
-        correctAnswer: 2
+        options: ["A random Tuesday", "The day you finally stopped playing hard to get 🗓️", "I forgot (Select this if you want the site deleted)"],
+        correctAnswer: 1
     },
     {
-        question: "Where and when did our first kiss happen?",
-        options: ["Unexpected on the deck😁04 Nov 2025", "We don't talk about how awkward it was", "In the bathroom"],
+        question: "Where or when did our first kiss happen?",
+        options: ["It was highly cinematic and perfect ✨", "We don't talk about how awkward it was", "Wait, we've kissed?!"],
         correctAnswer: 0
     },
     {
         question: "What is Psalm's absolute favorite snack of all time?",
-        options: ["Ice cream", "Whatever sweet treat you are currently eating 🍫", "Air"],
-        correctAnswer: 0
+        options: ["A healthy fruit salad", "Whatever sweet treat you are currently eating 🍫", "Air"],
+        correctAnswer: 1
     },
     {
         question: "Exactly how many kids do we want to have in the future?",
-        options: ["Zero, just 14 cats", "A perfectly reasonable number (like 2 or 3) 👶", "4 kids, 3 boys 1 girl"],
-        correctAnswer: 2
+        options: ["Zero, just 14 cats", "A perfectly reasonable number (like 2 or 3) 👶", "An entire soccer team"],
+        correctAnswer: 1
     },
     {
         question: "What is the official chosen name for our very first child?",
-        options: ["Casian Claude Karumekai", "Neteyam Claude Karumekai", "X Æ A-12"],
+        options: ["Something perfectly matched and beautiful 🤫", "Psalm Junior", "X Æ A-12"],
         correctAnswer: 0
     },
     {
@@ -124,16 +124,15 @@ const loginQuestions = [
     },
     {
         question: "Settling the score once and for all: Who actually fell first?",
-        options: ["Leila ", "Psalm🧎‍♂️", "It was a simultaneous cosmic connection"],
-        correctAnswer: 0
+        options: ["Leila (obviously)", "Psalm (he was desperate) 🧎‍♂️", "It was a simultaneous cosmic connection"],
+        correctAnswer: 1
     },
     {
         question: "What is the passcode phrase for final entry?",
-        options: ["Open Sesame", "Password123", "Psalm is the best girlfriend alive 🏆"],
+        options: ["Open Sesame", "Password123", "Psalm is the best boyfriend alive 🏆"],
         correctAnswer: 2
     }
 ];
-
 
 // --- STATE MANAGEMENT ---
 let currentLoginIndex = 0;
@@ -154,9 +153,13 @@ function loadLoginQuestion() {
     if (feedbackEl) feedbackEl.innerText = "";
 
     if (currentLoginIndex >= loginQuestions.length) {
+        // FIX: Update validation state to true BEFORE routing or hiding layout components
         hasLoggedIn = true;
         document.getElementById('login-page').style.display = 'none';
-        document.getElementById('mainNav').style.display = 'flex';
+        
+        const mainNav = document.getElementById('mainNav');
+        if (mainNav) mainNav.style.display = 'flex';
+        
         showPage('home');
         return;
     }
@@ -177,54 +180,5 @@ function loadLoginQuestion() {
         optionsContainer.appendChild(button);
     });
 }
+function checkLoginAnswer(selectedIndex) {const feedbackEl = document.getElementById('login-feedback');const currentLogin = loginQuestions[currentLoginIndex];if (!feedbackEl) return;if (selectedIndex === currentLogin.correctAnswer) {feedbackEl.style.color = "#4a7c59";feedbackEl.innerText = "Access Granted! Loading next step... 💻";currentLoginIndex++;setTimeout(loadLoginQuestion, 1000);} else {feedbackEl.style.color = "#f99fb0";feedbackEl.innerText = "🛑 ACCESS DENIED! Identity verification mismatch.";}}// Page Switcher Navigation Trackerfunction showPage(pageId) {// SECURITY BLOCKER 1: Can't see anything if not logged inif (!hasLoggedIn) {return;}// SECURITY BLOCKER 2: Restrict if trying to sneak to proposal without passing quizif (pageId === 'proposal' && !hasPassedQuiz) {const feedbackEl = document.getElementById('quiz-feedback');if (feedbackEl) {feedbackEl.style.color = "#f99fb0";feedbackEl.innerText = "🔒 Access Denied! You must clear the relationship quiz first.";}return;}// Hide all pages manually using standard style overridesdocument.querySelectorAll('.page').forEach(page => {page.style.display = 'none';page.classList.remove('active');});document.querySelectorAll('nav button').forEach(btn => {btn.classList.remove('active');});// Make the targets visible directlyconst targetPage = document.getElementById(pageId);const targetNav = document.getElementById('nav-' + pageId);if (targetPage) {targetPage.style.display = 'block';targetPage.classList.add('active');}if (targetNav) {targetNav.classList.add('active');}if (pageId === 'proposal') {resetNoButton();}}// --- 3. QUIZ SYSTEM LOGIC ---function loadQuizQuestion() {const feedbackEl = document.getElementById('quiz-feedback');if (feedbackEl) feedbackEl.innerText = "";if (currentQuestionIndex >= quizQuestions.length) {hasPassedQuiz = true;document.getElementById('quiz-container').style.display = 'none';document.getElementById('quiz-intro').style.display = 'none';document.getElementById('quiz-success').style.display = 'block';return;}const currentQuiz = quizQuestions[currentQuestionIndex];const questionTextEl = document.getElementById('question-text');if (questionTextEl) questionTextEl.innerText = currentQuiz.question;const optionsContainer = document.getElementById('options-container');if (!optionsContainer) return;optionsContainer.innerHTML = "";currentQuiz.options.forEach((option, index) => {const button = document.createElement('button');button.classList.add('option-btn');button.innerText = option;button.onclick = () => checkAnswer(index);optionsContainer.appendChild(button);});}function checkAnswer(selectedIndex) {const feedbackEl = document.getElementById('quiz-feedback');const currentQuiz = quizQuestions[currentQuestionIndex];if (!feedbackEl) return;if (selectedIndex === currentQuiz.correctAnswer) {feedbackEl.style.color = "#4a7c59";feedbackEl.innerText = "Correct! Moving to the next question... ✨";currentQuestionIndex++;setTimeout(loadQuizQuestion, 1200);} else {feedbackEl.style.color = "#f99fb0";feedbackEl.innerText = "❌ Incorrect! Try another option...";}}// --- 4. RUNAWAY NO BUTTON LOGIC ---function moveNoButton() {const noBtn = document.getElementById('noBtn');const container = document.querySelector('.proposal-container');if (!noBtn || !container) return;const containerRect = container.getBoundingClientRect();const btnRect = noBtn.getBoundingClientRect();const maxX = containerRect.width - btnRect.width - 20;const maxY = containerRect.height - btnRect.height - 20;const randomX = Math.floor(Math.random() * Math.max(maxX, 1));const randomY = Math.floor(Math.random() * Math.max(maxY, 1));noBtn.style.position = 'absolute';noBtn.style.left = randomX + 'px';noBtn.style.top = randomY + 'px';}document.addEventListener("DOMContentLoaded", () => {const noBtn = document.getElementById('noBtn');if (noBtn) {noBtn.addEventListener('mouseenter', moveNoButton);noBtn.addEventListener('click', moveNoButton);}});function resetNoButton() {const noBtn = document.getElementById('noBtn');if (!noBtn) return;noBtn.style.position = 'static';setTimeout(() => {noBtn.style.position = 'absolute';noBtn.style.left = '55%';noBtn.style.top = '65%';}, 10);}// --- 5. SECRET MESSAGES LOGIC ---function setRandomSecretMessage() {const messageEl = document.getElementById('secretMessage');if (messageEl) {const randomIndex = Math.floor(Math.random() * secretMessages.length);messageEl.innerText = secretMessages[randomIndex];}}// --- 6. CELEBRATION OVERLAY ---let heartTimer = null;function celebrate() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'flex';startHearts();}function closeOverlay() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'none';if (heartTimer) clearInterval(heartTimer);}function startHearts() {const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];heartTimer = setInterval(() => {const heart = document.createElement('div');heart.style.position = 'fixed';heart.style.bottom = '-50px';heart.style.fontSize = '24px';heart.style.zIndex = '99999';heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];heart.style.left = Math.random() * 100 + 'vw';let currentBottom = -50;const speed = Math.random() * 3 + 2;const slideInterval = setInterval(() => {currentBottom += speed;heart.style.bottom = currentBottom + 'px';if (currentBottom > window.innerHeight) {clearInterval(slideInterval);heart.remove();}}, 20);document.body.appendChild(heart);}, 400);}
 
-function checkLoginAnswer(selectedIndex) {
-    const feedbackEl = document.getElementById('login-feedback');
-    const currentLogin = loginQuestions[currentLoginIndex];
-    if (!feedbackEl) return;
-
-    if (selectedIndex === currentLogin.correctAnswer) {
-        feedbackEl.style.color = "#4a7c59";
-        feedbackEl.innerText = "Access Granted! Loading step... 💻";
-        currentLoginIndex++;
-        setTimeout(loadLoginQuestion, 1000);
-    } else {
-        feedbackEl.style.color = "#f99fb0";
-        feedbackEl.innerText = "🛑 ACCESS DENIED! Clear choice verification mismatch.";
-    }
-}
-
-// Page Switcher Navigation Tracker
-function showPage(pageId) {
-    // SECURITY BLOCKER 1: Can't see anything if not logged in
-    if (!hasLoggedIn) {
-        showPage('login-page');
-        return;
-    }
-
-    // SECURITY BLOCKER 2: Restrict if trying to sneak to proposal without passing quiz
-    if (pageId === 'proposal' && !hasPassedQuiz) {
-        const feedbackEl = document.getElementById('quiz-feedback');
-        if (feedbackEl) {
-            feedbackEl.style.color = "#f99fb0";
-            feedbackEl.innerText = "🔒 Access Denied! You must clear the relationship quiz first.";
-        }
-        showPage('quiz');
-        return;
-    }
-
-    // Hide all pages manually using standard style overrides
-    document.querySelectorAll('.page').forEach(page => {
-        page.style.display = 'none';
-        page.classList.remove('active');
-    });
-    document.querySelectorAll('nav button').forEach(btn => {
-        btn.classList.remove('active');
-    });
-
-    // Make the targets visible directly
-    const targetPage = document.getElementById(pageId);
-    const targetNav = document.getElementById('nav-' + pageId);
-    
-    if (targetPage) {
-targetPage.style.display = 'block';targetPage.classList.add('active');}if (targetNav) {targetNav.classList.add('active');}if (pageId === 'proposal') {resetNoButton();}}// --- 3. QUIZ SYSTEM LOGIC ---function loadQuizQuestion() {const feedbackEl = document.getElementById('quiz-feedback');if (feedbackEl) feedbackEl.innerText = "";if (currentQuestionIndex >= quizQuestions.length) {hasPassedQuiz = true;document.getElementById('quiz-container').style.display = 'none';document.getElementById('quiz-intro').style.display = 'none';document.getElementById('quiz-success').style.display = 'block';return;}const currentQuiz = quizQuestions[currentQuestionIndex];const questionTextEl = document.getElementById('question-text');if (questionTextEl) questionTextEl.innerText = currentQuiz.question;const optionsContainer = document.getElementById('options-container');if (!optionsContainer) return;optionsContainer.innerHTML = "";currentQuiz.options.forEach((option, index) => {const button = document.createElement('button');button.classList.add('option-btn');button.innerText = option;button.onclick = () => checkAnswer(index);optionsContainer.appendChild(button);});}function checkAnswer(selectedIndex) {const feedbackEl = document.getElementById('quiz-feedback');const currentQuiz = quizQuestions[currentQuestionIndex];if (!feedbackEl) return;if (selectedIndex === currentQuiz.correctAnswer) {feedbackEl.style.color = "#4a7c59";feedbackEl.innerText = "Correct! Moving to the next question... ✨";currentQuestionIndex++;setTimeout(loadQuizQuestion, 1200);} else {feedbackEl.style.color = "#f99fb0";feedbackEl.innerText = "❌ Incorrect! (Try another option, I won't tell anyone)";}}// --- 4. RUNAWAY NO BUTTON LOGIC ---function moveNoButton() {const noBtn = document.getElementById('noBtn');const container = document.querySelector('.proposal-container');if (!noBtn || !container) return;const containerRect = container.getBoundingClientRect();const btnRect = noBtn.getBoundingClientRect();const maxX = containerRect.width - btnRect.width - 20;const maxY = containerRect.height - btnRect.height - 20;const randomX = Math.floor(Math.random() * Math.max(maxX, 1));const randomY = Math.floor(Math.random() * Math.max(maxY, 1));noBtn.style.position = 'absolute';noBtn.style.left = randomX + 'px';noBtn.style.top = randomY + 'px';}document.addEventListener("DOMContentLoaded", () => {const noBtn = document.getElementById('noBtn');if (noBtn) {noBtn.addEventListener('mouseenter', moveNoButton);noBtn.addEventListener('click', moveNoButton);}});function resetNoButton() {const noBtn = document.getElementById('noBtn');if (!noBtn) return;noBtn.style.position = 'static';setTimeout(() => {noBtn.style.position = 'absolute';noBtn.style.left = '55%';noBtn.style.top = '65%';}, 10);}// --- 5. SECRET MESSAGES LOGIC ---function setRandomSecretMessage() {const messageEl = document.getElementById('secretMessage');if (messageEl) {const randomIndex = Math.floor(Math.random() * secretMessages.length);messageEl.innerText = secretMessages[randomIndex];}}// --- 6. CELEBRATION OVERLAY ---let heartTimer = null;function celebrate() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'flex';startHearts();}// Global scope initialization wrapper updatefunction closeOverlay() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'none';if (heartTimer) clearInterval(heartTimer);}function startHearts() {const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];heartTimer = setInterval(() => {const heart = document.createElement('div');heart.style.position = 'fixed';heart.style.bottom = '-50px';heart.style.fontSize = '24px';heart.style.zIndex = '99999';heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];heart.style.left = Math.random() * 100 + 'vw';let currentBottom = -50;const speed = Math.random() * 3 + 2;const slideInterval = setInterval(() => {currentBottom += speed;heart.style.bottom = currentBottom + 'px';if (currentBottom > window.innerHeight) {clearInterval(slideInterval);heart.remove();}}, 20);document.body.appendChild(heart);}, 400);}
