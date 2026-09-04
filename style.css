@@ -133,15 +133,22 @@ p {
 .proposal-btn-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 40px;
     margin-top: 50px;
-    position: relative;
 }
 
 #noBtn {
-    position: absolute;
+    position: relative; /* Keeps button naturally centered inside container until mouseover kicks in */
     background-color: var(--soft-pink);
-    transition: all 0.1s ease;
+    color: white;
+    transition: transform 0.1s ease;
+}
+
+/* Class applied by JavaScript once the button needs to fly away */
+#noBtn.runaway {
+    position: fixed;
+    z-index: 999;
 }
 
 /* Secret Message Box */
@@ -196,6 +203,10 @@ p {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.overlay.active {
+    display: flex; /* Helps trigger visual display alongside JS overlay calls */
 }
 
 .overlay h2 {
