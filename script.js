@@ -31,7 +31,7 @@ const secretMessages = [
     `Secret #29: I love you more hehe🌹🦄🍩🍨`,
     `Secret #30: I farted👌😁😎 and it smells like candy`,
     `Secret #31: You dont need people's approval to prove that you are great🩵🩵🩵`,
-    `Secret #32: Thank you for healing me❤️‍🩹❤️‍🩹`,
+    `Secret #32: Thank you for healing me❤️‍¼❤️‍¼`,
     `Secret #33: I'm hungeryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy, I want Ice cream!!!! I want sushi!!!!`,
     `Secret #34: Can I be dirty here?😗😏`
 ];
@@ -85,20 +85,88 @@ const quizQuestions = [
     }
 ];
 
+// --- SILLY LOGIN SYSTEM DATA ---
+const loginQuestions = [
+    {
+        question: "Who is trying to log into this system?",
+        options: ["A random hacker", "The prettiest girl ever (Leila) 🩵", "An annoying goblin"],
+        correctAnswer: 1
+    },
+    {
+        question: "What is the passcode phrase for entry?",
+        options: ["Open Sesame", "Password123", "Psalm is the best boyfriend alive 🏆"],
+        correctAnswer: 2
+    }
+];
 
 // --- STATE MANAGEMENT ---
+let currentLoginIndex = 0;
 let currentQuestionIndex = 0;
+let hasLoggedIn = false;
 let hasPassedQuiz = false; 
 
 // Run initial configurations safely when browser window finishes loading everything
 window.onload = function() {
+    loadLoginQuestion();
     loadQuizQuestion();
     setRandomSecretMessage();
 };
 
+// --- SILLY LOGIN SYSTEM LOGIC ---
+function loadLoginQuestion() {
+    const feedbackEl = document.getElementById('login-feedback');
+    if (feedbackEl) feedbackEl.innerText = "";
+
+    if (currentLoginIndex >= loginQuestions.length) {
+        hasLoggedIn = true;
+        document.getElementById('login-page').style.display = 'none';
+        document.getElementById('mainNav').style.display = 'flex';
+        showPage('home');
+        return;
+    }
+
+    const currentLogin = loginQuestions[currentLoginIndex];
+    const questionTextEl = document.getElementById('login-question-text');
+    if (questionTextEl) questionTextEl.innerText = currentLogin.question;
+
+    const optionsContainer = document.getElementById('login-options-container');
+    if (!optionsContainer) return;
+    optionsContainer.innerHTML = "";
+
+    currentLogin.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.classList.add('option-btn');
+        button.innerText = option;
+        button.onclick = () => checkLoginAnswer(index);
+        optionsContainer.appendChild(button);
+    });
+}
+
+function checkLoginAnswer(selectedIndex) {
+    const feedbackEl = document.getElementById('login-feedback');
+    const currentLogin = loginQuestions[currentLoginIndex];
+    if (!feedbackEl) return;
+
+    if (selectedIndex === currentLogin.correctAnswer) {
+        feedbackEl.style.color = "#4a7c59";
+        feedbackEl.innerText = "Access Granted! Loading step... 💻";
+        currentLoginIndex++;
+        setTimeout(loadLoginQuestion, 1000);
+    } else {
+        feedbackEl.style.color = "#f99fb0";
+        feedbackEl.innerText = "🛑 ACCESS DENIED! Clear choice verification mismatch.";
+    }
+}
+
 // Page Switcher Navigation Tracker
 function showPage(pageId) {
-    // SECURITY BLOCKER: Restrict if trying to sneak to proposal without passing quiz
+    // SECURITY BLOCKER 1: Can't see anything if not logged in
+    if (!hasLoggedIn) {
+        showPage('login-page');
+        return;
+    }
+
+    // SECURITY BLOCKER 2: Restrict if trying to sneak to proposal without passing quiz
     if (pageId === 'proposal' && !hasPassedQuiz) {
         const feedbackEl = document.getElementById('quiz-feedback');
         if (feedbackEl) {
@@ -123,151 +191,4 @@ function showPage(pageId) {
     const targetNav = document.getElementById('nav-' + pageId);
     
     if (targetPage) {
-        targetPage.style.display = 'block';
-        targetPage.classList.add('active');
-    }
-    if (targetNav) {
-        targetNav.classList.add('active');
-    }
-    
-    if (pageId === 'proposal') {
-        resetNoButton();
-    }
-}
-
-// --- 3. QUIZ SYSTEM LOGIC ---
-function loadQuizQuestion() {
-    const feedbackEl = document.getElementById('quiz-feedback');
-    if (feedbackEl) feedbackEl.innerText = ""; 
-
-    if (currentQuestionIndex >= quizQuestions.length) {
-        hasPassedQuiz = true; 
-        document.getElementById('quiz-container').style.display = 'none';
-        document.getElementById('quiz-intro').style.display = 'none';
-        document.getElementById('quiz-success').style.display = 'block';
-        return;
-    }
-
-    const currentQuiz = quizQuestions[currentQuestionIndex];
-    const questionTextEl = document.getElementById('question-text');
-    if (questionTextEl) questionTextEl.innerText = currentQuiz.question;
-    
-    const optionsContainer = document.getElementById('options-container');
-    if (!optionsContainer) return;
-    optionsContainer.innerHTML = ""; 
-
-    currentQuiz.options.forEach((option, index) => {
-        const button = document.createElement('button');
-        button.classList.add('option-btn');
-        button.innerText = option;
-        button.onclick = () => checkAnswer(index);
-        optionsContainer.appendChild(button);
-    });
-}
-
-function checkAnswer(selectedIndex) {
-    const feedbackEl = document.getElementById('quiz-feedback');
-    const currentQuiz = quizQuestions[currentQuestionIndex];
-    if (!feedbackEl) return;
-
-    if (selectedIndex === currentQuiz.correctAnswer) { 
-        feedbackEl.style.color = "#4a7c59";
-        feedbackEl.innerText = "Correct! Moving to the next question... ✨";
-        currentQuestionIndex++;
-        setTimeout(loadQuizQuestion, 1200);
-    } else {
-        feedbackEl.style.color = "#f99fb0";
-        feedbackEl.innerText = "❌ Incorrect! (Try another option, I won't tell anyone)";
-    }
-}
-
-// --- 4. RUNAWAY NO BUTTON LOGIC ---
-// FIX #1: We can't query elements globally right away if script.js loads before HTML renders.
-// These are now handled safely inside the functions.
-function moveNoButton() {
-    const noBtn = document.getElementById('noBtn');
-    const container = document.querySelector('.proposal-container');
-    if (!noBtn || !container) return;
-
-    const containerRect = container.getBoundingClientRect();
-    const btnRect = noBtn.getBoundingClientRect();
-
-    const maxX = containerRect.width - btnRect.width - 20;
-    const maxY = containerRect.height - btnRect.height - 20;
-    
-    const randomX = Math.floor(Math.random() * Math.max(maxX, 1));
-    const randomY = Math.floor(Math.random() * Math.max(maxY, 1));
-    
-    noBtn.style.position = 'absolute';
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
-}
-
-// FIX #2: Event assignment placed inside execution block so it waits until window elements exist.
-document.addEventListener("DOMContentLoaded", () => {
-    const noBtn = document.getElementById('noBtn');
-    if (noBtn) {
-        noBtn.addEventListener('mouseenter', moveNoButton);
-        noBtn.addEventListener('click', moveNoButton);
-    }
-});
-
-function resetNoButton() {
-    const noBtn = document.getElementById('noBtn');
-    if (!noBtn) return;
-    noBtn.style.position = 'static';
-    setTimeout(() => {
-        noBtn.style.position = 'absolute';
-        noBtn.style.left = '55%'; // FIX #3: Changed right to left so absolute centering tracks properly
-        noBtn.style.top = '65%';
-    }, 10);
-}
-
-// --- 5. SECRET MESSAGES LOGIC ---
-function setRandomSecretMessage() {
-    const messageEl = document.getElementById('secretMessage');
-    if (messageEl) {
-        const randomIndex = Math.floor(Math.random() * secretMessages.length);
-        messageEl.innerText = secretMessages[randomIndex];
-    }
-}
-
-// --- 6. CELEBRATION OVERLAY ---
-let heartTimer = null; // Track interval state to turn off if closed
-
-function celebrate() {
-    const overlay = document.getElementById('successOverlay');
-    if (overlay) overlay.style.display = 'flex';
-    startHearts();
-}
-
-function closeOverlay() {
-    const overlay = document.getElementById('successOverlay');
-    if (overlay) overlay.style.display = 'none';
-    if (heartTimer) clearInterval(heartTimer); // Stop heart loops when closing
-}
-
-function startHearts() {
-    const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];
-    heartTimer = setInterval(() => {
-        const heart = document.createElement('div');
-        heart.style.position = 'fixed';
-        heart.style.bottom = '-50px';
-        heart.style.fontSize = '24px';
-        heart.style.zIndex = '99999';
-        heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        heart.style.left = Math.random() * 100 + 'vw';
-        
-        let currentBottom = -50;
-        const speed = Math.random() * 3 + 2;
-        const slideInterval = setInterval(() => {
-            currentBottom += speed;
-            heart.style.bottom = currentBottom + 'px';
-            if (currentBottom > window.innerHeight) {
-                clearInterval(slideInterval);
-                heart.remove();
-            }
-        }, 20);
-        document.body.appendChild(heart);
-    }, 400);
-}
+targetPage.style.display = 'block';targetPage.classList.add('active');}if (targetNav) {targetNav.classList.add('active');}if (pageId === 'proposal') {resetNoButton();}}// --- 3. QUIZ SYSTEM LOGIC ---function loadQuizQuestion() {const feedbackEl = document.getElementById('quiz-feedback');if (feedbackEl) feedbackEl.innerText = "";if (currentQuestionIndex >= quizQuestions.length) {hasPassedQuiz = true;document.getElementById('quiz-container').style.display = 'none';document.getElementById('quiz-intro').style.display = 'none';document.getElementById('quiz-success').style.display = 'block';return;}const currentQuiz = quizQuestions[currentQuestionIndex];const questionTextEl = document.getElementById('question-text');if (questionTextEl) questionTextEl.innerText = currentQuiz.question;const optionsContainer = document.getElementById('options-container');if (!optionsContainer) return;optionsContainer.innerHTML = "";currentQuiz.options.forEach((option, index) => {const button = document.createElement('button');button.classList.add('option-btn');button.innerText = option;button.onclick = () => checkAnswer(index);optionsContainer.appendChild(button);});}function checkAnswer(selectedIndex) {const feedbackEl = document.getElementById('quiz-feedback');const currentQuiz = quizQuestions[currentQuestionIndex];if (!feedbackEl) return;if (selectedIndex === currentQuiz.correctAnswer) {feedbackEl.style.color = "#4a7c59";feedbackEl.innerText = "Correct! Moving to the next question... ✨";currentQuestionIndex++;setTimeout(loadQuizQuestion, 1200);} else {feedbackEl.style.color = "#f99fb0";feedbackEl.innerText = "❌ Incorrect! (Try another option, I won't tell anyone)";}}// --- 4. RUNAWAY NO BUTTON LOGIC ---function moveNoButton() {const noBtn = document.getElementById('noBtn');const container = document.querySelector('.proposal-container');if (!noBtn || !container) return;const containerRect = container.getBoundingClientRect();const btnRect = noBtn.getBoundingClientRect();const maxX = containerRect.width - btnRect.width - 20;const maxY = containerRect.height - btnRect.height - 20;const randomX = Math.floor(Math.random() * Math.max(maxX, 1));const randomY = Math.floor(Math.random() * Math.max(maxY, 1));noBtn.style.position = 'absolute';noBtn.style.left = randomX + 'px';noBtn.style.top = randomY + 'px';}document.addEventListener("DOMContentLoaded", () => {const noBtn = document.getElementById('noBtn');if (noBtn) {noBtn.addEventListener('mouseenter', moveNoButton);noBtn.addEventListener('click', moveNoButton);}});function resetNoButton() {const noBtn = document.getElementById('noBtn');if (!noBtn) return;noBtn.style.position = 'static';setTimeout(() => {noBtn.style.position = 'absolute';noBtn.style.left = '55%';noBtn.style.top = '65%';}, 10);}// --- 5. SECRET MESSAGES LOGIC ---function setRandomSecretMessage() {const messageEl = document.getElementById('secretMessage');if (messageEl) {const randomIndex = Math.floor(Math.random() * secretMessages.length);messageEl.innerText = secretMessages[randomIndex];}}// --- 6. CELEBRATION OVERLAY ---let heartTimer = null;function celebrate() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'flex';startHearts();}// Global scope initialization wrapper updatefunction closeOverlay() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'none';if (heartTimer) clearInterval(heartTimer);}function startHearts() {const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];heartTimer = setInterval(() => {const heart = document.createElement('div');heart.style.position = 'fixed';heart.style.bottom = '-50px';heart.style.fontSize = '24px';heart.style.zIndex = '99999';heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];heart.style.left = Math.random() * 100 + 'vw';let currentBottom = -50;const speed = Math.random() * 3 + 2;const slideInterval = setInterval(() => {currentBottom += speed;heart.style.bottom = currentBottom + 'px';if (currentBottom > window.innerHeight) {clearInterval(slideInterval);heart.remove();}}, 20);document.body.appendChild(heart);}, 400);}
