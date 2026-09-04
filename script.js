@@ -181,14 +181,92 @@ function checkAnswer(selectedIndex) {
 }
 
 // --- 4. RUNAWAY NO BUTTON LOGIC ---
-const noBtn = document.getElementById('noBtn');
-const container = document.querySelector('.proposal-container');
-
+// FIX #1: We can't query elements globally right away if script.js loads before HTML renders.
+// These are now handled safely inside the functions.
 function moveNoButton() {
+    const noBtn = document.getElementById('noBtn');
+    const container = document.querySelector('.proposal-container');
     if (!noBtn || !container) return;
 
     const containerRect = container.getBoundingClientRect();
     const btnRect = noBtn.getBoundingClientRect();
 
     const maxX = containerRect.width - btnRect.width - 20;
-const maxY = containerRect.height - btnRect.height - 20;const randomX = Math.floor(Math.random() * Math.max(maxX, 1));const randomY = Math.floor(Math.random() * Math.max(maxY, 1));noBtn.style.position = 'absolute';noBtn.style.left = randomX + 'px';noBtn.style.top = randomY + 'px';}if (noBtn) {noBtn.addEventListener('mouseenter', moveNoButton);noBtn.addEventListener('click', moveNoButton);}function resetNoButton() {if (!noBtn) return;noBtn.style.position = 'static';setTimeout(() => {noBtn.style.position = 'absolute';noBtn.style.right = '20%';noBtn.style.top = '65%';}, 10);}// --- 5. SECRET MESSAGES LOGIC ---function setRandomSecretMessage() {const messageEl = document.getElementById('secretMessage');if (messageEl) {const randomIndex = Math.floor(Math.random() * secretMessages.length);messageEl.innerText = secretMessages[randomIndex];}}// --- 6. CELEBRATION OVERLAY ---function celebrate() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'flex';startHearts();}function closeOverlay() {const overlay = document.getElementById('successOverlay');if (overlay) overlay.style.display = 'none';}function startHearts() {const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];setInterval(() => {const heart = document.createElement('div');heart.style.position = 'fixed';heart.style.bottom = '-50px';heart.style.fontSize = '24px';heart.style.zIndex = '99999';heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];heart.style.left = Math.random() * 100 + 'vw';let currentBottom = -50;const speed = Math.random() * 3 + 2;const slideInterval = setInterval(() => {currentBottom += speed;heart.style.bottom = currentBottom + 'px';if (currentBottom > window.innerHeight) {clearInterval(slideInterval);heart.remove();}}, 20);document.body.appendChild(heart);}, 400);}
+    const maxY = containerRect.height - btnRect.height - 20;
+    
+    const randomX = Math.floor(Math.random() * Math.max(maxX, 1));
+    const randomY = Math.floor(Math.random() * Math.max(maxY, 1));
+    
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = randomX + 'px';
+    noBtn.style.top = randomY + 'px';
+}
+
+// FIX #2: Event assignment placed inside execution block so it waits until window elements exist.
+document.addEventListener("DOMContentLoaded", () => {
+    const noBtn = document.getElementById('noBtn');
+    if (noBtn) {
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('click', moveNoButton);
+    }
+});
+
+function resetNoButton() {
+    const noBtn = document.getElementById('noBtn');
+    if (!noBtn) return;
+    noBtn.style.position = 'static';
+    setTimeout(() => {
+        noBtn.style.position = 'absolute';
+        noBtn.style.left = '55%'; // FIX #3: Changed right to left so absolute centering tracks properly
+        noBtn.style.top = '65%';
+    }, 10);
+}
+
+// --- 5. SECRET MESSAGES LOGIC ---
+function setRandomSecretMessage() {
+    const messageEl = document.getElementById('secretMessage');
+    if (messageEl) {
+        const randomIndex = Math.floor(Math.random() * secretMessages.length);
+        messageEl.innerText = secretMessages[randomIndex];
+    }
+}
+
+// --- 6. CELEBRATION OVERLAY ---
+let heartTimer = null; // Track interval state to turn off if closed
+
+function celebrate() {
+    const overlay = document.getElementById('successOverlay');
+    if (overlay) overlay.style.display = 'flex';
+    startHearts();
+}
+
+function closeOverlay() {
+    const overlay = document.getElementById('successOverlay');
+    if (overlay) overlay.style.display = 'none';
+    if (heartTimer) clearInterval(heartTimer); // Stop heart loops when closing
+}
+
+function startHearts() {
+    const emojis = ['😂', '🩵', '✨', '💍', '🍕', '🥰'];
+    heartTimer = setInterval(() => {
+        const heart = document.createElement('div');
+        heart.style.position = 'fixed';
+        heart.style.bottom = '-50px';
+        heart.style.fontSize = '24px';
+        heart.style.zIndex = '99999';
+        heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        
+        let currentBottom = -50;
+        const speed = Math.random() * 3 + 2;
+        const slideInterval = setInterval(() => {
+            currentBottom += speed;
+            heart.style.bottom = currentBottom + 'px';
+            if (currentBottom > window.innerHeight) {
+                clearInterval(slideInterval);
+                heart.remove();
+            }
+        }, 20);
+        document.body.appendChild(heart);
+    }, 400);
+}
