@@ -1,39 +1,39 @@
 // --- 1. ROTATING SECRET MESSAGES CONFIG ---
 const secretMessages = [
-    "Secret #1: I love you more than ice cream. And you know how much I love ice cream. But seriously, you're my absolute favorite person in the universe. 🩵",
-    "Secret #2: I still look at you when you aren't looking and think 'damn, I really hit the jackpot'. Thanks for being mine. 👀✨",
-    "Secret #3: Your laugh is my favorite sound in the world (and when you moan, no body needs to know that tho), even when you're laughing at me for doing something stupid. 🥰😂",
-    "Secret #4: You are officially stuck with me forever. No refunds, no exchanges, and absolutely no store credit. Love you! 🛑🤍",
-    "Secret #5: I hope you never forget how amazing you are, you dont need to be like anyone else, you are perfect just the way you are🩵",
-    "Secret #6: If we were in a horror movie, I'd totally sacrifice myself to save you. (Unless it's a snake, then we are both going down together). 🕷️🫶",
-    "Secret #7: I love you more today than I did yesterday. Except for that brief moment earlier when you chose Imaan over me, I was really upset.🤭",
-    "Secret #8: You are my safe place, my best friend, and my favorite distraction. Life is a million times better with you in it. 🪐🤍",
-    "Secret #9: Thank you for putting up with my chaotic energy and loving me anyway. You deserve a medal, but for now, you just get my whole heart. 🏅🩵",
-    "Secret #10: Out of all the people in the world, you're the one I want to annoy for the next 80 years. You're stuck with me! 🤪💍",
-    "Secret #11: I am so deeply in love with you that even your cold toes touching my legs under the blankets wont ever ruin my mood. 🥶🩵",
-    "Secret #12: Just a reminder that you are gorgeous, smart, incredibly funny, and your taste in partners is absolutely flawless. 😏✨",
-    "Secret #13: Whenever I am having a rough day, just getting a text from you or seeing your face completely resets my brain. Thank you for being my peace. 🤍🌱",
-    "Secret #14: I promise to always listen to you vent about your day, even if I have no idea who the people you are mad at are. I'm on your side anyway. 🗣️😤",
-    "Secret #15: My favorite place in the entire world is wherever you are. (Though sitting on the couch next to you while eating snacks is a very close second). 🍿🛋️",
-    "Secret #16: I love you so much that I will gladly go to the store at 10 PM just because you casually mentioned you were craving a very specific sweet treat. 🍫🚗",
-    "Secret #17: You make standard, boring daily life feel like an adventure. I love doing absolutely nothing with you. 🛒🩵",
-    "Secret #18: I am completely convinced we were made for each other. Either that, or we share the exact same rare kind of brain damage. 😂🧠🩵",
-    "Secret #19: You have the biggest heart of anyone I know. I am so lucky that I get to keep a huge piece of it, even tho i want all of. 🗺️🤍",
-    "Secret #20: I still get butterflies when I know I'm about to see you. Yes, even after all this time. 🦋✨",
-    "Secret #21: I promise to always carry the heavy bags, kill the scary bugs, and let you choose the first bite of my food. That's real love. 🕷️🥡",
-    "Secret #22: You're my favorite person to send stupid memes to. Thank you for always matching my frequency. 📱🤪",
-    "Secret #23: If being obsessed with you was a full-time job, I'd be a billionaire by now. 💼💰🩵",
-    "Secret #24: Thank you for making me laugh until my stomach hurts. You are the absolute joy of my life. ☀️🤍",
-    "Secret #25: No matter what happens in the future, please remember that you have an permanent home right here next to me. I love you to the moon and back. 🌙🩵",
-    "Secret #26: Your story is yours and no body else's, God has it written down and drawn out for you, dont try to change what God has written out just because you want to be better than someone else, never forget that🩵",
-    "Secret #27: Your arms will always be my go to through all my emotions🌹😊",
-    "Secret #28: Forever and always, Im never letting go🦄🩵",
-    "Secret #29: I love you more hehe🌹🦄🍩🍨",
-    "Secret #30: I farted👌😁😎 and it smells like candy",
-    "Secret #31: You dont need people's approval to prove that you are great🩵🩵🩵",
-    "Secret #32: Thank you for healing me❤️‍🩹❤️‍🩹",
-    "Secret #33: I'm hungeryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy, I want Ice cream!!!! I want sushi!!!!",
-    "Secret #34: Can I be dirty here?😗😏"
+    `Secret #1: I love you more than ice cream. And you know how much I love ice cream. But seriously, you're my absolute favorite person in the universe. 🩵`,
+    `Secret #2: I still look at you when you aren't looking and think 'damn, I really hit the jackpot'. Thanks for being mine. 👀✨`,
+    `Secret #3: Your laugh is my favorite sound in the world (and when you moan, no body needs to know that tho), even when you're laughing at me for doing something stupid. 🥰😂`,
+    `Secret #4: You are officially stuck with me forever. No refunds, no exchanges, and absolutely no store credit. Love you! 🛑🤍`,
+    `Secret #5: I hope you never forget how amazing you are, you dont need to be like anyone else, you are perfect just the way you are🩵`,
+    `Secret #6: If we were in a horror movie, I'd totally sacrifice myself to save you. (Unless it's a snake, then we are both going down together). 🕷️🫶`,
+    `Secret #7: I love you more today than I did yesterday. Except for that brief moment earlier when you chose Imaan over me, I was really upset.🤭`,
+    `Secret #8: You are my safe place, my best friend, and my favorite distraction. Life is a million times better with you in it. 🪐🤍`,
+    `Secret #9: Thank you for putting up with my chaotic energy and loving me anyway. You deserve a medal, but for now, you just get my whole heart. 🏅🩵`,
+    `Secret #10: Out of all the people in the world, you're the one I want to annoy for the next 80 years. You're stuck with me! 🤪💍`,
+    `Secret #11: I am so deeply in love with you that even your cold toes touching my legs under the blankets wont ever ruin my mood. 🥶🩵`,
+    `Secret #12: Just a reminder that you are gorgeous, smart, incredibly funny, and your taste in partners is absolutely flawless. 😏✨`,
+    `Secret #13: Whenever I am having a rough day, just getting a text from you or seeing your face completely resets my brain. Thank you for being my peace. 🤍🌱`,
+    `Secret #14: I promise to always listen to you vent about your day, even if I have no idea who the people you are mad at are. I'm on your side anyway. 🗣️😤`,
+    `Secret #15: My favorite place in the entire world is wherever you are. (Though sitting on the couch next to you while eating snacks is a very close second). 🍿🛋️`,
+    `Secret #16: I love you so much that I will gladly go to the store at 10 PM just because you casually mentioned you were craving a very specific sweet treat. 🍫🚗`,
+    `Secret #17: You make standard, boring daily life feel like an adventure. I love doing absolutely nothing with you. 🛒🩵`,
+    `Secret #18: I am completely convinced we were made for each other. Either that, or we share the exact same rare kind of brain damage. 😂🧠🩵`,
+    `Secret #19: You have the biggest heart of anyone I know. I am so lucky that I get to keep a huge piece of it, even tho i want all of. 🗺️🤍`,
+    `Secret #20: I still get butterflies when I know I'm about to see you. Yes, even after all this time. 🦋✨`,
+    `Secret #21: I promise to always carry the heavy bags, kill the scary bugs, and let you choose the first bite of my food. That's real love. 🕷️🥡`,
+    `Secret #22: You're my favorite person to send stupid memes to. Thank you for always matching my frequency. 📱🤪`,
+    `Secret #23: If being obsessed with you was a full-time job, I'd be a billionaire by now. 💼💰🩵`,
+    `Secret #24: Thank you for making me laugh until my stomach hurts. You are the absolute joy of my life. ☀️🤍`,
+    `Secret #25: No matter what happens in the future, please remember that you have an permanent home right here next to me. I love you to the moon and back. 🌙🩵`,
+    `Secret #26: Your story is yours and no body else's, God has it written down and drawn out for you, dont try to change what God has written out just because you want to be better than someone else, never forget that🩵`,
+    `Secret #27: Your arms will always be my go to through all my emotions🌹😊`,
+    `Secret #28: Forever and always, Im never letting go🦄🩵`,
+    `Secret #29: I love you more hehe🌹🦄🍩🍨`,
+    `Secret #30: I farted👌😁😎 and it smells like candy`,
+    `Secret #31: You dont need people's approval to prove that you are great🩵🩵🩵`,
+    `Secret #32: Thank you for healing me❤️‍🩹❤️‍🩹`,
+    `Secret #33: I'm hungeryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy, I want Ice cream!!!! I want sushi!!!!`,
+    `Secret #34: Can I be dirty here?😗😏`
 ];
 
 // --- 2. PERSONALIZED RELATIONSHIP QUIZ DATA ---
@@ -84,6 +84,7 @@ const quizQuestions = [
         correctAnswer: 2
     }
 ];
+
 
 // --- STATE MANAGEMENT ---
 let currentQuestionIndex = 0;
