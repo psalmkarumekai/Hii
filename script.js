@@ -93,11 +93,47 @@ const loginQuestions = [
         correctAnswer: 1
     },
     {
-        question: "What is the passcode phrase for entry?",
-        options: ["Open Sesame", "Password123", "Psalm is the best boyfriend alive 🏆"],
+        question: "What is our official anniversary date?",
+        options: ["24 November 2026", "02 November 2025", "24 November 2025"],
+        correctAnswer: 2
+    },
+    {
+        question: "Where and when did our first kiss happen?",
+        options: ["Unexpected on the deck😁04 Nov 2025", "We don't talk about how awkward it was", "In the bathroom"],
+        correctAnswer: 0
+    },
+    {
+        question: "What is Psalm's absolute favorite snack of all time?",
+        options: ["Ice cream", "Whatever sweet treat you are currently eating 🍫", "Air"],
+        correctAnswer: 0
+    },
+    {
+        question: "Exactly how many kids do we want to have in the future?",
+        options: ["Zero, just 14 cats", "A perfectly reasonable number (like 2 or 3) 👶", "4 kids, 3 boys 1 girl"],
+        correctAnswer: 2
+    },
+    {
+        question: "What is the official chosen name for our very first child?",
+        options: ["Casian Claude Karumekai", "Neteyam Claude Karumekai", "X Æ A-12"],
+        correctAnswer: 0
+    },
+    {
+        question: "Be completely honest: Do you actually love me?",
+        options: ["With my whole entire heart 🩵", "Eh, you're alright I guess", "Only when you buy me food"],
+        correctAnswer: 0
+    },
+    {
+        question: "Settling the score once and for all: Who actually fell first?",
+        options: ["Leila ", "Psalm🧎‍♂️", "It was a simultaneous cosmic connection"],
+        correctAnswer: 0
+    },
+    {
+        question: "What is the passcode phrase for final entry?",
+        options: ["Open Sesame", "Password123", "Psalm is the best girlfriend alive 🏆"],
         correctAnswer: 2
     }
 ];
+
 
 // --- STATE MANAGEMENT ---
 let currentLoginIndex = 0;
