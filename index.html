@@ -49,12 +49,34 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav>
+       <!-- Navigation Bar -->
+    <nav id="mainNav" style="display: none;"> <!-- Hidden until login bypasses -->
         <button onclick="showPage('home')" id="nav-home" class="active">Welcome</button>
         <button onclick="showPage('quiz')" id="nav-quiz">The Quiz</button>
         <button onclick="showPage('proposal')" id="nav-proposal">The Question</button>
     </nav>
+
+    <!-- PAGE 0: SILLY LOGIN GATEWAY -->
+    <div id="login-page" class="page active">
+        <div class="card login-card">
+            <h1>🔒 Security Clearance</h1>
+            <p>This server contains highly classified relationship data. Prove your identity by answering this question:</p>
+            
+            <div id="login-container">
+                <h3 id="login-question-text">Loading security checkpoint...</h3>
+                <div id="login-options-container">
+                    <!-- Dynamic choices load here via JavaScript -->
+                </div>
+                <p id="login-feedback" class="feedback"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 1: HOME -->
+    <div id="home" class="page" style="display: none;">
+        <div class="card">
+            <h1>Welcome to Our Corner ✨</h1>
+            <!-- ... Remainder of your regular Home page contents remain exactly the same ... -->
 
     <!-- PAGE 1: HOME -->
     <div id="home" class="page active">
